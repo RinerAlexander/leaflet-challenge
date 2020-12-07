@@ -8,25 +8,22 @@ var underlay =  L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/
   accessToken: API_KEY
 })
 
+var myMap = L.map("map", {
+  center: [39.50, -99.35],
+  zoom: 3,
+  layers: [underlay]
+});
+
 d3.json(queryUrl, function(data) {
-    // Once we get a response, create a geoJSON layer containing the features array and add a popup for each marker
-    // then, send the layer to the createMap() function.
-    var earthquakes = L.geoJSON(data.features, {
-      onEachFeature : addPopup
-    });
-    console.log(earthquakes);
 
-    var myMap = L.map("map", {
-        center: [39.50, -99.35],
-        zoom: 3,
-        layers: [underlay, earthquakes]
-    });
+  data.features.forEach(function(earthquake){
+    L.circle(earthquake.geometry.coordinates.slice(0,2).reverse(),{
+      color: "green",
+      fillColor: "green",
+      fillOpacity: 0.75,
+      radius: 500
+    }).addTo(myMap);
+    // console.log(earthquake.geometry.coordinates.slice(0,2));
+  })
 
-    layers: [underlay, earthquakes]
 })
-
-// Define a function we want to run once for each feature in the features array
-function addPopup(feature, layer) {
-    // Give each feature a popup describing the place and time of the earthquake
-    return layer.bindPopup(`<h3> ${feature.properties.place} </h3> <hr> <p> ${Date(feature.properties.time)} </p>`);
-  }
