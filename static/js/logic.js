@@ -9,8 +9,8 @@ var underlay =  L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/
 })
 
 var myMap = L.map("map", {
-  center: [39.50, -99.35],
-  zoom: 3,
+  center: [0,0],
+  zoom: 2,
   layers: [underlay]
 });
 
