@@ -18,12 +18,35 @@ d3.json(queryUrl, function(data) {
 
   data.features.forEach(function(earthquake){
     L.circle(earthquake.geometry.coordinates.slice(0,2).reverse(),{
-      color: "green",
-      fillColor: "green",
+      color: circleColor(earthquake.geometry.coordinates[2]),
+      fillColor: circleColor(earthquake.geometry.coordinates[2]),
       fillOpacity: 0.75,
-      radius: 500
+      radius: earthquake.properties.mag*10000
     }).addTo(myMap);
     // console.log(earthquake.geometry.coordinates.slice(0,2));
   })
 
 })
+
+function circleColor(depth){
+  var color;
+  if (depth<10){
+    color="red"
+  }
+  else if (depth<20){
+    color="orange"
+  }
+  else if (depth<30){
+    color="yellow"
+  }
+  else if (depth<40){
+    color="green"
+  }
+  else if (depth<50){
+    color="blue"
+  }
+  else{
+    color="purple"
+  };
+  return color;
+}
