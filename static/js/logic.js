@@ -29,6 +29,27 @@ d3.json(queryUrl, function(data) {
     .addTo(myMap);
   })
 
+  var legend = L.control({position: 'bottomleft'});
+  legend.onAdd = function (myMap) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+    labels = ['<strong>Depth in Km</strong>'],
+    categories = ['<10','<20','<30','<40','<50','>50'];
+    colors = ["red","orange","yellow","green","blue","purple"]
+
+    for (var i = 0; i < categories.length; i++) {
+
+            div.innerHTML += 
+            labels.push(
+                '<i class="circle" style="background:' + colors[i] + '"></i> ' +
+            (categories[i] ? categories[i] : '+'));
+
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+  };
+  legend.addTo(myMap);
+
 })
 
 function circleColor(depth){
