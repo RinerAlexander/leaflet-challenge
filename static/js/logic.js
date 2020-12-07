@@ -17,13 +17,16 @@ var myMap = L.map("map", {
 d3.json(queryUrl, function(data) {
 
   data.features.forEach(function(earthquake){
+    var time=new Date(earthquake.properties.time);
+    var type=earthquake.properties.type;
     L.circle(earthquake.geometry.coordinates.slice(0,2).reverse(),{
       color: circleColor(earthquake.geometry.coordinates[2]),
       fillColor: circleColor(earthquake.geometry.coordinates[2]),
       fillOpacity: 0.75,
       radius: earthquake.properties.mag*10000
-    }).addTo(myMap);
-    // console.log(earthquake.geometry.coordinates.slice(0,2));
+    })
+    .bindPopup(`<p>Time:${time}</p><p>Type:${type}</p>`)
+    .addTo(myMap);
   })
 
 })
